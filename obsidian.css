@@ -13,6 +13,20 @@ body, p {
   font-size: 18px;
 }
 
+:root{
+  --editor-font: Hack;
+  --preview-font: Arial;
+
+  --onedark-black: #282c34;
+  --onedark-red: #e06c75;
+  --onedark-green: #98c379;
+  --onedark-yellow: #e5c07b;
+  --onedark-blue: #61afef;
+  --onedark-purple: #c678dd;
+  --onedark-teal: #56b6c2;
+  --onedark-grey: #abb2bf;
+}
+
 .theme-dark {
   --background-primary: #282c34;
   --background-primary-alt: #21252b;
@@ -27,13 +41,13 @@ body, p {
   --text-title-h5: #859679;
   --text-title-h6: #8be9fd;
   --text-link: #8be9fd;
-  --text-a: #61afef;
+  --text-a: var(--onedark-blue);
   --text-a-hover: #bd93f9;
-  --text-mark: #ffeb3b;
+  --text-mark: var(--onedark-yellow);
   --pre-code: #21252b;
   --text-highlight-bg: #6272a4;
   --interactive-accent: #5f6161;
-  --interactive-before: #ffb86c;
+  --interactive-before: #61afef;
   --background-modifier-border: #abb2bf;
   --blockquote-border: #dfe2e5;
   --text-accent: #8be9fd;
@@ -45,12 +59,16 @@ body, p {
 }
 
 .checkbox-container {
-  background-color: var(--interactive-before);
+  background-color: var(--interactive-accent);
   height: 16px !important;
   width: 34px !important;
 }
 
-.checkbox-container:after {
+.checkbox-container.is-enabled{
+  background-color: var(--interactive-before);
+}
+
+.checkbox-container::after {
   background-color: var(--background-secondary-alt);
   height: 11px !important;
   width: 14px !important;
@@ -84,7 +102,19 @@ a:hover, .internal-link:hover {
 }
 
 mark {
+  padding: 0 0.1em;
   background-color: var(--text-mark) !important;
+  border-radius: 3px;
+}
+
+/* Cursor */
+.cm-fat-cursor .CodeMirror-cursor {
+    background: var(--text-normal);
+    width: 1.1ch;
+}
+
+.cm-animate-fat-cursor {
+    background-color: var(--text-normal);
 }
 
 .file-view-actions a,
@@ -111,7 +141,7 @@ mark {
 
 pre code,
 .CodeMirror pre.CodeMirror-line, .CodeMirror pre.CodeMirror-line-like {
-  font-family: Consolas, 'Courier New', 'Noto Sans TC','Source Han Sans CN', "微软雅黑"!important;
+  font-family: var(--editor-font), Consolas, 'Courier New', 'Noto Sans TC','Source Han Sans CN', "微软雅黑"!important;
 }
 
 pre code {
@@ -253,17 +283,17 @@ img {
 }
 
 .is-read-mode .markdown-preview-view p {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-size: 18px;
 }
 
 .cm-s-obsidian {
   font-family: Consolas, 'Courier New', 'Noto Sans TC','Source Han Sans CN', "微软雅黑";
-  font-size: 18px; /*Editor font-size*/
+  font-size: 16px; /*Editor font-size*/
 }
 
 .app-container {
-  font-family: Avenir;
+  font-family: var(--preview-font);
 }
 
 .cm-s-obsidian {/*Editor padding*/
@@ -276,7 +306,7 @@ img {
 }
 
 .markdown-preview-view {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-size: 18px;
   padding-left: 10% !important;
   padding-right: 10% !important;
@@ -295,7 +325,7 @@ img {
 
 .cm-header-1,
 .markdown-preview-view h1 {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 34px;
   font-weight: bold;
@@ -304,7 +334,7 @@ img {
 
 .cm-header-2,
 .markdown-preview-view h2 {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 28px;
   font-weight: bold;
@@ -313,7 +343,7 @@ img {
 
 .cm-header-3,
 .markdown-preview-view h3 {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 26px;
   font-weight: bold;
@@ -322,7 +352,7 @@ img {
 
 .cm-header-4,
 .markdown-preview-view h4 {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 22px;
   font-weight: bold;
@@ -331,7 +361,7 @@ img {
 
 .cm-header-5,
 .markdown-preview-view h5 {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 20px;
   font-weight: bold;
@@ -340,7 +370,7 @@ img {
 
 .cm-header-6,
 .markdown-preview-view h6 {
-  font-family: Avenir;
+  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 20px;
   font-weight: bold;
@@ -368,6 +398,8 @@ input[type='checkbox']:checked:after {
   color: white;
   background-color: #1867c0;
 }
+
+
 
 .cm-em {
   color: #c678dd;
@@ -429,4 +461,8 @@ input[type='checkbox']:checked:after {
 
 .theme-dark em {
   color: var(--text-normal);;
+}
+
+.theme-dark mark > em {
+  color: var(--background-primary);
 }
