@@ -16,24 +16,26 @@ body, p {
 :root{
   --editor-font: Hack;
   --preview-font: Arial;
+}
 
+.theme-dark {
   --onedark-black: #282c34;
   --onedark-red: #e06c75;
   --onedark-green: #98c379;
   --onedark-yellow: #e5c07b;
   --onedark-blue: #61afef;
+  --onedark-dark-blue: #1867c0;
   --onedark-purple: #c678dd;
   --onedark-teal: #56b6c2;
   --onedark-grey: #abb2bf;
-}
 
-.theme-dark {
   --background-primary: #282c34;
   --background-primary-alt: #21252b;
-  --background-secondary: #21252b;
+  --background-secondary: #262831;
   --background-secondary-alt: #282c34;
   --text-normal: #abb2bf;
   --text-faint: rgba(215, 218, 224, 0.4);
+  --text-bright: #b5c7c7;
   --text-title-h1: #a79645;
   --text-title-h2: #939bd6;
   --text-title-h3: #ba6ea0;
@@ -44,7 +46,6 @@ body, p {
   --text-a: var(--onedark-blue);
   --text-a-hover: #bd93f9;
   --text-mark: var(--onedark-yellow);
-  --pre-code: #21252b;
   --text-highlight-bg: #6272a4;
   --interactive-accent: #5f6161;
   --interactive-before: #61afef;
@@ -52,6 +53,58 @@ body, p {
   --blockquote-border: #dfe2e5;
   --text-accent: #8be9fd;
   --interactive-accent-rgb: #ffb86c;
+  --text-radius: 0.2em;
+
+  --cursor-color: var(--text-normal);
+  --link-brackets-color: #e06c75;
+  --code-color: #EB5757;
+  --dock-icon-hover: #d7dae0;
+  --checkbox-unchecked-fill: #cccccc;
+  --code-background: var(--background-secondary);
+}
+
+.theme-light {
+  /* Light theme colors taken from https://github.com/atom/one-light-syntax/blob/master/styles/colors.less */
+  --onedark-black: #282c34;
+  --onedark-red: #e45649;
+  --onedark-green: #50a14f;
+  --onedark-blue: #4078f2;
+  --onedark-yellow: #e5c07b;
+  --onedark-purple: #a626a4;
+  --onedark-teal: #0184bc;
+  --onedark-grey: #abb2bf;
+
+  --background-primary: rgb(250, 250, 250);
+  --background-primary-alt: #cccccc;
+  --background-secondary: #cccccc;
+  --background-secondary-alt: #cccccc;
+  --text-normal: var(--onedark-black);
+  --text-faint: rgba(54, 54, 54, 0.4);
+  --text-title-h1: #a79645;
+  --text-title-h2: #939bd6;
+  --text-title-h3: #ba6ea0;
+  --text-title-h4: #b78b60;
+  --text-title-h5: #859679;
+  --text-title-h6: #8be9fd;
+  --text-link: #8be9fd;
+  --text-a: var(--onedark-blue);
+  --text-a-hover: #bd93f9;
+  --text-mark: var(--onedark-yellow);
+  --text-highlight-bg: #6272a4;
+  --interactive-accent: #5f6161;
+  --interactive-before: #61afef;
+  --background-modifier-border: #abb2bf;
+  --blockquote-border: #dfe2e5;
+  --text-accent: #8be9fd;
+  --interactive-accent-rgb: #ffb86c;
+  --cursor-color: var(--onedark-blue);
+  --link-brackets-color: #e06c75;
+  --code-color: #EB5757;
+  --dock-icon-hover: var(--text-normal);
+  --explorer-filename: var(--text-normal);
+  --explorer-focused-background: #2c313a;
+  --checkbox-checked-fill: #1867c0;
+  --checkbox-unchecked-fill: #cccccc;
 }
 
 #graph-view-canvas .links {
@@ -93,7 +146,7 @@ a,
 
 .cm-formatting-link {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-  color: #e06c75 !important
+  color: var(--link-brackets-color) !important
 }
 
 a:hover, .internal-link:hover {
@@ -104,18 +157,10 @@ a:hover, .internal-link:hover {
 mark {
   padding: 0 0.1em;
   background-color: var(--text-mark) !important;
-  border-radius: 3px;
+  border-radius: var(--text-radius);
+  color: var(--background-primary) !important ;
 }
 
-/* Cursor */
-.cm-fat-cursor .CodeMirror-cursor {
-    background: var(--text-normal);
-    width: 1.1ch;
-}
-
-.cm-animate-fat-cursor {
-    background-color: var(--text-normal);
-}
 
 .file-view-actions a,
 .cm-quote {
@@ -135,9 +180,10 @@ mark {
   color: var(--text-faint);
 }
 
-.cm-inline-code, code {
-  color: #EB5757!important;
-}
+/* .cm-inline-code, .HyperMD-codeblock{
+  color: var(--code-color) !important;
+  background-color: var(--code-background) !important;
+} */
 
 pre code,
 .CodeMirror pre.CodeMirror-line, .CodeMirror pre.CodeMirror-line-like {
@@ -149,18 +195,24 @@ pre code {
   display: block;
   border-radius: 2px !important;
   color: var(--text-normal) !important;
-  background-color: var(--pre-code) !important;
+  background-color: var(--code-background) !important;
+}
+
+
+/* The backticks on inline code are separate elements from the code, so
+have to format them separately for adding rounded corners */
+/* Format the left backtick */
+.cm-formatting-code {
+  border-radius: var(--text-radius) 0 0 var(--text-radius);
+}
+
+/* Format the right backtick */
+.cm-inline-code + .cm-formatting-code {
+  border-radius: 0 var(--text-radius) var(--text-radius) 0;
 }
 
 .markdown-preview-view pre {
   padding: 0px !important;
-}
-
-code,
-.cm-inline-code {
-  background-color: rgba(135,131,120,0.15) !important;
-  color: #EB5757 !important;
-  bottom: 0px !important;
 }
 
 .markdown-preview-view code {
@@ -173,6 +225,16 @@ code,
 
 .CodeMirror pre.CodeMirror-line.HyperMD-codeblock {
   padding-left: 15px;
+}
+
+/* Cursor */
+.cm-fat-cursor .CodeMirror-cursor {
+    background-color: var(--cursor-color) !important;
+    width: 1.1ch;
+}
+
+.cm-animate-fat-cursor {
+    background-color: var(--cursor-color) !important;
 }
 
 th {
@@ -236,6 +298,7 @@ img {
 .side-dock-ribbon svg {
   width: 24px;
   height: 24px;
+  color: var(--text-faint);
 }
 
 .side-dock-ribbon-tab:hover,
@@ -243,7 +306,7 @@ img {
 .side-dock-ribbon-action.is-active:hover,
 .nav-action-button:hover,
 .side-dock-collapse-btn:hover {
-  color: #d7dae0 ;
+  color: var(--dock-icon-hover);
 }
 
 .side-dock-collapse-btn {
@@ -252,12 +315,13 @@ img {
 }
 
 .nav-file-title, .nav-folder-title {
-  color: #cccccc;
+  color: var(--text-normal);
 }
 
 .nav-file.is-active > .nav-file-title, .nav-file.is-active > .nav-folder-title, .nav-file.is-active > .nav-folder-collapse-indicator, .nav-folder.is-active > .nav-file-title, .nav-folder.is-active > .nav-folder-title, .nav-folder.is-active > .nav-folder-collapse-indicator {
-  background-color: #2c313a;
-  color: #d7dae0;
+  background-color: var(--background-secondary-alt);
+  color: var(--text-bright);
+  font-weight: bold;
 }
 
 .side-dock-settings {
@@ -316,6 +380,11 @@ img {
   font-weight: 600;
 }
 
+.markdown-preview-section code {
+  background-color: var(--background-secondary) !important;
+  
+}
+
 .markdown-embed {
   padding-left: 10px !important;
   padding-right: 10px !important;
@@ -323,9 +392,12 @@ img {
   margin-right: 10px !important;
 }
 
+.cm-header, .cm-formatting-header {
+  font-family: var(--editor-font) !important;
+}
+
 .cm-header-1,
 .markdown-preview-view h1 {
-  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 34px;
   font-weight: bold;
@@ -334,7 +406,6 @@ img {
 
 .cm-header-2,
 .markdown-preview-view h2 {
-  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 28px;
   font-weight: bold;
@@ -343,7 +414,6 @@ img {
 
 .cm-header-3,
 .markdown-preview-view h3 {
-  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 26px;
   font-weight: bold;
@@ -352,7 +422,6 @@ img {
 
 .cm-header-4,
 .markdown-preview-view h4 {
-  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 22px;
   font-weight: bold;
@@ -361,7 +430,6 @@ img {
 
 .cm-header-5,
 .markdown-preview-view h5 {
-  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 20px;
   font-weight: bold;
@@ -370,11 +438,14 @@ img {
 
 .cm-header-6,
 .markdown-preview-view h6 {
-  font-family: var(--preview-font);
   font-weight: 500;
   font-size: 20px;
   font-weight: bold;
   color: var(--text-title-h6);
+}
+
+.CodeMirror-linenumber {
+  color: var(--text-faint) !important;
 }
 
 .markdown-preview-view .task-list-item-checkbox {
@@ -390,16 +461,19 @@ input[type='checkbox']:after {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background-color: #cccccc;
+  background-color: var(--text-normal);
   transition: .3s;
 }
+
 input[type='checkbox']:checked:after {
   content: '\2713';
   color: white;
-  background-color: #1867c0;
+  background-color: var(--onedark-dark-blue);
 }
 
-
+.footnote-backref {
+  font-family: Roboto;
+}
 
 .cm-em {
   color: #c678dd;
@@ -423,11 +497,6 @@ input[type='checkbox']:checked:after {
 
 .suggestion-item.is-selected {
   background-color: var(--background-secondary);
-}
-
-.empty-state-container:hover {
-  background-color: var(--background-secondary-alt);
-  border: 5px solid var(--interactive-accent) !important;
 }
 
 .workspace-leaf.mod-active .workspace-leaf-header {
@@ -455,7 +524,7 @@ input[type='checkbox']:checked:after {
 }
 
 .theme-dark strong {
-  color: #b5c7c7;
+  color: var(--text-bright);
   font-weight: bolder;
 }
 
